@@ -1,0 +1,14 @@
+class Product{
+	private String productname;
+	private double cost;
+	Product(String productname,double cost){
+		this.productname=productname;
+		this.cost=cost;
+	}
+	public String getproductname() {
+		return productname;
+	}
+	public double getcost() {
+		return cost;
+	}
+}
