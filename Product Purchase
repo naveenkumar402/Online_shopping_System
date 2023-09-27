@@ -1,0 +1,60 @@
+class ProductPurchase{
+	private List<User> user;
+	private List<Product> product;
+	private List<ProductSelection> prosel;
+	ProductPurchase(){
+		user=new ArrayList<>();
+		product=new ArrayList<>();
+		prosel=new ArrayList<>();	
+	}
+	public Product findProduct(String pname) {
+		for(Product p:product) {
+			if(p.getproductname().equalsIgnoreCase(pname))
+				return p;
+		}
+		return null;
+	}
+	public User finduserid(String userid) {
+		for(User u:user) {
+			if(u.getuserid().equals(userid))
+				return u;
+		}
+		return null;
+	}
+	public void addcart(ProductSelection p) {
+		prosel.add(p);
+	}
+	public void addproduct(Product p) {
+		product.add(p);
+	}
+	public void adduser(User u) {
+		user.add(u);
+	}
+	public List<User> getallUser(){
+		return user;
+	}
+	public List<Product> getallProduct() {
+		return product;
+	}
+	public List<ProductSelection> getallselect(){
+		return prosel;
+	}
+	public ProductSelection findselectedproduct(String pname) {
+		for(ProductSelection p:prosel) {
+			if(p.getproduct().getproductname().equalsIgnoreCase(pname))
+				return p;
+		}
+		return null;
+	}
+	public void removeproduct(ProductSelection p) {
+		prosel.remove(p);
+	}	
+	public String checkid(String id) {
+		for(User u:user) {
+			if(u.getuserid().equals(id)) {
+				return u.getuserid();
+			}
+		}
+		return null;
+	}
+}
