@@ -1,0 +1,140 @@
+public class OnlineShoppingSystem{
+	public static void main(String args[]) {
+		ProductPurchase purchase=new ProductPurchase();
+		Scanner sc=new Scanner(System.in);
+		System.out.println("******WELCOME TO ONLINE SHOPPING******");
+		while(true) {
+			System.out.println("1.Sign up or Sign in");
+			System.out.println("2.View Products");
+			System.out.println("3.Add product to cart");
+			System.out.println("4.View cart Product");
+			System.out.println("5.Remove cart Product");
+			System.out.println("6.Purchase Product");
+			System.out.println("7.Exit");
+			System.out.println("Select 1-5:");
+			int choice=sc.nextInt();
+			switch(choice) {
+			case 1:
+				System.out.println("Name:");
+				String name=sc.next();
+				System.out.println("Mobile number:");
+				String mob=sc.next();
+				if(mob.length()==10) {
+					System.out.println("Address:");
+					String address=sc.next();
+					boolean b=true;
+					while(b) {
+						System.out.println("Username:");
+						String userid=sc.next();
+						if(purchase.checkid(userid)==null) {
+							User u1=new User(userid,name,mob,address);
+							purchase.adduser(u1);
+							System.out.println("Username created successfully");
+							b=false;
+						}
+						else {
+							System.out.println("UserID already Exists");
+						}
+					}
+				}
+				else System.out.println("Check your Mobile number");
+				break;
+			case 2:
+				System.out.println("Select Category");
+				System.out.println("1.Mobile");
+				System.out.println("2.Laptop");
+				System.out.println("Enter 1 or 2:");
+				int c=sc.nextInt();
+				if(c==1) {
+					Product p1=new Product("Vivo",20000);
+					Product p2=new Product("Oppo",20000);
+					Product p3=new Product("Oneplus",30000);
+					Product p4=new Product("iPhone",100000);
+					purchase.addproduct(p1);
+					purchase.addproduct(p2);
+					purchase.addproduct(p3);
+					purchase.addproduct(p4);
+				}
+				else if(c==2){
+					Product p1=new Product("HP",50000);
+					Product p2=new Product("Dell",50000);
+					Product p3=new Product("MacBook",200000);
+					purchase.addproduct(p1);
+					purchase.addproduct(p2);
+					purchase.addproduct(p3);
+				}
+				for(Product p:purchase.getallProduct()) {
+					System.out.println(p.getproductname()+"-"+p.getcost());
+				}
+				break;
+			case 3:
+				System.out.println("Enter your UserID:");
+				String uid=sc.next();
+				User user=purchase.finduserid(uid);
+				if(user != null) {
+					System.out.println("Enter Product name:");
+					String pname=sc.next();
+					Product product=purchase.findProduct(pname);
+					if(product!=null) {
+						System.out.println("Enter Quantity:");
+						int quan=sc.nextInt();
+						ProductSelection p=new ProductSelection(user,product,quan);
+						purchase.addcart(p);
+					}
+					else {
+						System.out.println("Product not Available");
+					}
+				}
+				else { 
+					System.out.println("UserID not exists Create new account");
+					choice=1;
+				}
+				break;
+			case 4:
+				double sum=0;
+				for(ProductSelection ps:purchase.getallselect()) {
+					System.out.println(ps.getproduct().getproductname()+" - "+ps.getproduct().getcost());
+					sum=sum+ps.getproduct().getcost()*ps.getquantity();
+				}
+				System.out.println("Total Product: "+sum);
+				break;
+			case 5:
+				System.out.println("Enter the Product: ");
+				String s=sc.next();
+				ProductSelection p=purchase.findselectedproduct(s);
+				if(p !=null) {
+					purchase.removeproduct(p);
+					System.out.println("Product removed Successfully");
+				}
+				else System.out.println("Product not Found");
+				break;
+			case 6:
+				String pay=null;
+				String billname=null;
+				String addrs=null;
+				double amount=0;
+				for(ProductSelection ps:purchase.getallselect()) {
+					pay="Product name: "+ps.getproduct().getproductname()+"   Price: "+ps.getproduct().getcost();
+					System.out.println(pay.toString());
+					billname=ps.getuser().getusername();
+					amount=amount+ps.getproduct().getcost()*ps.getquantity();
+					addrs=ps.getuser().getaddress()+"\n"+ps.getuser().getmob();
+				}
+				System.out.println("Total cost of product: "+amount);
+				double GST=amount*0.08;
+				System.out.println("GST: "+GST);
+				System.out.println("Total Price: "+(amount+GST));
+				System.out.println(billname.toString());
+				System.out.println(addrs.toString());
+				break;
+			case 7:
+				System.out.println("*******THANK YOU*******");
+				System.exit(0);
+				break;
+			default:
+				System.out.println("Invalid option");
+				break;	
+			}
+		}
+	}
+}
