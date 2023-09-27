@@ -1,0 +1,24 @@
+class User {
+	private String userId;
+	private String username;
+	private String mob;
+	private String address;
+	User(String userId,String username,String mob,String address){
+		this.userId=userId;
+		this.username=username;
+		this.mob=mob;
+		this.address=address;
+	}
+	public String getusername() {
+		return username;
+	}
+	public String getuserid() {
+		return userId;
+	}
+	public String getmob() {
+		return mob;
+	}
+	public String getaddress() {
+		return address;
+	}
+}
